@@ -1,0 +1,91 @@
+<div class="teacher-detail-container">
+    <div class="header">
+        <button mat-icon-button (click)="goBack()" class="back-button">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <h1>Detalle del Profesor</h1>
+    </div>
+
+    <div *ngIf="loading" class="loading-container">
+        <mat-spinner diameter="50"></mat-spinner>
+        <p>Cargando información del profesor...</p>
+    </div>
+
+    <div *ngIf="!loading && teacher" class="content">
+        <mat-card class="main-card">
+            <mat-card-header>
+                <mat-card-title>{{ teacher.name }}</mat-card-title>
+                <mat-card-subtitle>Información General</mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <label>ID:</label>
+                        <span>{{ teacher.id }}</span>
+                    </div>
+
+                    <div class="info-item">
+                        <label>Estado:</label>
+                        <span class="status-badge active">Activo</span>
+                    </div>
+
+                    <div class="info-item">
+                        <label>Total de Materias:</label>
+                        <span class="subjects-count">{{ teacher.subjects?.length || 0 }} materias</span>
+                    </div>
+                </div>
+            </mat-card-content>
+
+            <mat-card-actions>
+                <button mat-raised-button color="accent" (click)="editTeacher()">
+                    <mat-icon>edit</mat-icon>
+                    Editar Profesor
+                </button>
+                <button mat-raised-button color="warn" (click)="deleteTeacher()">
+                    <mat-icon>delete</mat-icon>
+                    Eliminar Profesor
+                </button>
+            </mat-card-actions>
+        </mat-card>
+
+        <mat-card class="subjects-card">
+            <mat-card-header>
+                <mat-card-title>Materias que Imparte</mat-card-title>
+                <mat-card-subtitle>Lista de materias asignadas a este profesor</mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content>
+                <div *ngIf="teacher.subjects && teacher.subjects.length === 0" class="empty-subjects">
+                    <mat-icon>book</mat-icon>
+                    <h3>No hay materias asignadas</h3>
+                    <p>Este profesor aún no tiene materias asignadas</p>
+                </div>
+
+                <div *ngIf="teacher.subjects && teacher.subjects.length > 0" class="subjects-list">
+                    <div *ngFor="let subject of teacher.subjects" class="subject-item">
+                        <div class="subject-info">
+                            <mat-icon class="subject-icon">book</mat-icon>
+                            <div class="subject-details">
+                                <h4>{{ subject.name }}</h4>
+                                <p>{{ subject.credits }} créditos</p>
+                            </div>
+                        </div>
+                        <button mat-icon-button color="primary" (click)="viewSubject(subject)">
+                            <mat-icon>visibility</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+    <div *ngIf="!loading && !teacher" class="error-container">
+        <mat-icon>error</mat-icon>
+        <h3>Profesor no encontrado</h3>
+        <p>El profesor que buscas no existe o ha sido eliminado</p>
+        <button mat-raised-button color="primary" (click)="goBack()">
+            Volver a la lista
+        </button>
+    </div>
+</div>

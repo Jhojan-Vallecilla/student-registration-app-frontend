@@ -1,0 +1,67 @@
+<div class="home-container">
+    <div class="welcome-section">
+        <h1>¡Bienvenido al Sistema de Registro Estudiantil!</h1>
+        <p>Gestiona estudiantes, materias y profesores de manera eficiente</p>
+    </div>
+
+    <div class="stats-grid">
+        <mat-card class="stat-card">
+            <mat-card-content>
+                <div class="stat-content">
+                    <mat-icon class="stat-icon">people</mat-icon>
+                    <div class="stat-info">
+                        <h3>Estudiantes</h3>
+                        <p class="stat-number">0</p>
+                        <p class="stat-label">Registrados</p>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card class="stat-card">
+            <mat-card-content>
+                <div class="stat-content">
+                    <mat-icon class="stat-icon">book</mat-icon>
+                    <div class="stat-info">
+                        <h3>Materias</h3>
+                        <p class="stat-number">0</p>
+                        <p class="stat-label">Disponibles</p>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card class="stat-card">
+            <mat-card-content>
+                <div class="stat-content">
+                    <mat-icon class="stat-icon">person</mat-icon>
+                    <div class="stat-info">
+                        <h3>Profesores</h3>
+                        <p class="stat-number">0</p>
+                        <p class="stat-label">Activos</p>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+    <div class="quick-actions">
+        <h2>Acciones Rápidas</h2>
+        <div class="actions-grid">
+            <button mat-raised-button color="primary" routerLink="/dashboard/students" class="action-button">
+                <mat-icon>add</mat-icon>
+                <span>Agregar Estudiante</span>
+            </button>
+
+            <button mat-raised-button color="accent" routerLink="/dashboard/subjects" class="action-button">
+                <mat-icon>book</mat-icon>
+                <span>Gestionar Materias</span>
+            </button>
+
+            <button mat-raised-button color="warn" routerLink="/dashboard/teachers" class="action-button">
+                <mat-icon>person_add</mat-icon>
+                <span>Gestionar Profesores</span>
+            </button>
+        </div>
+    </div>
+</div>

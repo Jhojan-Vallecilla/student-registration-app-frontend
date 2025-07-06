@@ -1,0 +1,94 @@
+<div class="subject-detail-container">
+    <div class="header">
+        <button mat-icon-button (click)="goBack()" class="back-button">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <h1>Detalle de Materia</h1>
+    </div>
+
+    <div *ngIf="loading" class="loading-container">
+        <mat-spinner diameter="50"></mat-spinner>
+        <p>Cargando información de la materia...</p>
+    </div>
+
+    <div *ngIf="!loading && subject" class="content">
+        <mat-card class="main-card">
+            <mat-card-header>
+                <mat-card-title>{{ subject.name }}</mat-card-title>
+                <mat-card-subtitle>Información General</mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <label>Créditos:</label>
+                        <span class="credits-badge">{{ subject.credits }}</span>
+                    </div>
+
+                    <div class="info-item">
+                        <label>Profesor:</label>
+                        <div class="teacher-info">
+                            <mat-icon>person</mat-icon>
+                            <span>{{ subject.teacher?.name || 'Sin asignar' }}</span>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <label>Estado:</label>
+                        <span class="status-badge active">Activa</span>
+                    </div>
+                </div>
+            </mat-card-content>
+
+            <mat-card-actions>
+                <button mat-raised-button color="accent" (click)="editSubject()">
+                    <mat-icon>edit</mat-icon>
+                    Editar Materia
+                </button>
+                <button mat-raised-button color="warn" (click)="deleteSubject()">
+                    <mat-icon>delete</mat-icon>
+                    Eliminar Materia
+                </button>
+            </mat-card-actions>
+        </mat-card>
+
+        <mat-card class="students-card">
+            <mat-card-header>
+                <mat-card-title>Estudiantes Inscritos</mat-card-title>
+                <mat-card-subtitle>Lista de estudiantes que cursan esta materia</mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content>
+                <div *ngIf="enrolledStudents.length === 0" class="empty-students">
+                    <mat-icon>people</mat-icon>
+                    <h3>No hay estudiantes inscritos</h3>
+                    <p>Esta materia aún no tiene estudiantes asignados</p>
+                </div>
+
+                <div *ngIf="enrolledStudents.length > 0" class="students-list">
+                    <div *ngFor="let student of enrolledStudents" class="student-item">
+                        <div class="student-info">
+                            <mat-icon class="student-icon">person</mat-icon>
+                            <div class="student-details">
+                                <h4>{{ student.name }}</h4>
+                                <p>{{ student.email }}</p>
+                            </div>
+                        </div>
+                        <button mat-icon-button color="primary" (click)="viewStudent(student)">
+                            <mat-icon>visibility</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+    <div *ngIf="!loading && !subject" class="error-container">
+        <mat-icon>error</mat-icon>
+        <h3>Materia no encontrada</h3>
+        <p>La materia que buscas no existe o ha sido eliminada</p>
+        <button mat-raised-button color="primary" (click)="goBack()">
+            Volver a la lista
+        </button>
+    </div>
+</div>

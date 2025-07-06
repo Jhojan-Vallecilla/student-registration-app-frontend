@@ -1,0 +1,50 @@
+<div class="login-container">
+    <mat-card class="login-card">
+        <mat-card-header>
+            <mat-card-title class="login-title">
+                <mat-icon class="login-icon">school</mat-icon>
+                Sistema de Registro Estudiantil
+            </mat-card-title>
+            <mat-card-subtitle>Inicia sesión para continuar</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Usuario</mat-label>
+                    <input matInput formControlName="username" type="text" required autocomplete="username">
+                    <mat-icon matSuffix>person</mat-icon>
+                    <mat-error *ngIf="loginForm.get('username')?.hasError('required')">
+                        El usuario es obligatorio
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Contraseña</mat-label>
+                    <input matInput formControlName="password" type="password" required autocomplete="current-password">
+                    <mat-icon matSuffix>lock</mat-icon>
+                    <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+                        La contraseña es obligatoria
+                    </mat-error>
+                </mat-form-field>
+
+                <div *ngIf="error" class="error-message">
+                    <mat-icon>error</mat-icon>
+                    {{ error }}
+                </div>
+
+                <div *ngIf="success" class="success-message">
+                    <mat-icon>check_circle</mat-icon>
+                    {{ success }}
+                </div>
+
+                <button mat-raised-button color="primary" type="submit" class="login-button"
+                    [disabled]="loading || loginForm.invalid">
+                    <mat-icon *ngIf="!loading">login</mat-icon>
+                    <mat-spinner *ngIf="loading" diameter="20"></mat-spinner>
+                    {{ loading ? 'Iniciando sesión...' : 'Iniciar Sesión' }}
+                </button>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>
