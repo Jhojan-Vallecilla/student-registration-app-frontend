@@ -5,28 +5,38 @@
 
             <div class="sidebar-header">
                 <mat-icon class="logo-icon">school</mat-icon>
-                <h2>Sistema Estudiantil</h2>
+                <h2>Portal Estudiantil</h2>
             </div>
 
             <mat-nav-list class="nav-list">
                 <a mat-list-item routerLink="/dashboard/home" routerLinkActive="active" class="nav-item">
                     <mat-icon>dashboard</mat-icon>
-                    <span>Dashboard</span>
+                    <span>Mi Dashboard</span>
+                </a>
+
+                <a mat-list-item routerLink="/dashboard/my-subjects" routerLinkActive="active" class="nav-item">
+                    <mat-icon>book</mat-icon>
+                    <span>Mis Materias</span>
+                </a>
+
+                <a mat-list-item routerLink="/dashboard/enroll-subjects" routerLinkActive="active" class="nav-item">
+                    <mat-icon>add_circle</mat-icon>
+                    <span>Inscribir Materias</span>
                 </a>
 
                 <a mat-list-item routerLink="/dashboard/students" routerLinkActive="active" class="nav-item">
                     <mat-icon>people</mat-icon>
-                    <span>Gestión de Estudiantes</span>
+                    <span>Ver Estudiantes</span>
                 </a>
 
                 <a mat-list-item routerLink="/dashboard/subjects" routerLinkActive="active" class="nav-item">
-                    <mat-icon>book</mat-icon>
-                    <span>Gestión de Materias</span>
+                    <mat-icon>library_books</mat-icon>
+                    <span>Ver Materias</span>
                 </a>
 
                 <a mat-list-item routerLink="/dashboard/teachers" routerLinkActive="active" class="nav-item">
                     <mat-icon>person</mat-icon>
-                    <span>Gestión de Profesores</span>
+                    <span>Ver Profesores</span>
                 </a>
             </mat-nav-list>
 

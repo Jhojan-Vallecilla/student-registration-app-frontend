@@ -3,7 +3,12 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { StudentsService } from '../../services/students.service';
-import { Student } from '../../models/student.interface';
+
+interface StudentWithSubjects {
+  id: number;
+  name: string;
+  subjects: string[];
+}
 
 @Component({
   selector: 'app-student-list',
@@ -11,9 +16,10 @@ import { Student } from '../../models/student.interface';
   styleUrls: ['./student-list.component.scss']
 })
 export class StudentListComponent implements OnInit {
-  students: Student[] = [];
+  students: StudentWithSubjects[] = [];
   loading = false;
-  displayedColumns: string[] = ['name', 'email', 'subjects', 'actions'];
+  displayedColumns: string[] = ['name', 'subjects', 'actions'];
+  currentUserId: number = 0;
 
   constructor(
     private studentsService: StudentsService,
@@ -23,17 +29,34 @@ export class StudentListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.loadCurrentUser();
     this.loadStudents();
+  }
+
+  loadCurrentUser(): void {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    this.currentUserId = currentUser.id || 0;
+  }
+
+  isCurrentUser(student: StudentWithSubjects): boolean {
+    return student.id === this.currentUserId;
+  }
+
+  getDisplayName(student: StudentWithSubjects): string {
+    if (this.isCurrentUser(student)) {
+      return `${student.name} (yo)`;
+    }
+    return student.name;
   }
 
   loadStudents(): void {
     this.loading = true;
-    this.studentsService.getStudents().subscribe({
-      next: (students) => {
+    this.studentsService.getStudentsWithSubjects().subscribe({
+      next: (students: StudentWithSubjects[]) => {
         this.students = students;
         this.loading = false;
       },
-      error: (error) => {
+      error: (error: any) => {
         console.error('Error cargando estudiantes:', error);
         this.loading = false;
         this.snackBar.open('Error al cargar estudiantes', 'Cerrar', { duration: 3000 });
@@ -41,30 +64,7 @@ export class StudentListComponent implements OnInit {
     });
   }
 
-  createStudent(): void {
-    this.router.navigate(['/students/create']);
-  }
-
-  viewStudent(student: Student): void {
+  viewStudent(student: StudentWithSubjects): void {
     this.router.navigate(['/students', student.id, 'detail']);
-  }
-
-  editStudent(student: Student): void {
-    this.router.navigate(['/students', student.id, 'edit']);
-  }
-
-  deleteStudent(student: Student): void {
-    if (confirm(`¿Estás seguro de eliminar a ${student.name}?`)) {
-      this.studentsService.deleteStudent(student.id!).subscribe({
-        next: () => {
-          this.snackBar.open('Estudiante eliminado correctamente', 'Cerrar', { duration: 3000 });
-          this.loadStudents();
-        },
-        error: (error) => {
-          console.error('Error eliminando estudiante:', error);
-          this.snackBar.open('Error al eliminar estudiante', 'Cerrar', { duration: 3000 });
-        }
-      });
-    }
   }
 }

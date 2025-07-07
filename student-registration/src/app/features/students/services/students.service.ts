@@ -3,6 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Student, SharedSubjectsResponse } from '../models/student.interface';
 
+interface StudentWithSubjects {
+  id: number;
+  name: string;
+  subjects: string[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -44,5 +50,10 @@ export class StudentsService {
   // GET /api/students/shared?studentId={id} - Obtener materias compartidas
   getSharedSubjects(studentId: number): Observable<SharedSubjectsResponse[]> {
     return this.http.get<SharedSubjectsResponse[]>(`${this.apiUrl}/students/shared?studentId=${studentId}`);
+  }
+
+  // GET /api/Students/with-subjects - Obtener estudiantes con sus materias inscritas
+  getStudentsWithSubjects(): Observable<StudentWithSubjects[]> {
+    return this.http.get<StudentWithSubjects[]>(`${this.apiUrl}/Students/with-subjects`);
   }
 }

@@ -37,8 +37,6 @@ export class DashboardComponent implements OnInit {
     // Limpiar token y redirigir al login
     localStorage.removeItem('token');
     localStorage.removeItem('currentUser');
-    console.log('Sesión cerrada');
-
     // Navegar de vuelta al login
     this.router.navigate(['/login']);
   }

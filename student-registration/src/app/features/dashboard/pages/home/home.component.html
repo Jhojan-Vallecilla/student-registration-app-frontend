@@ -11,7 +11,7 @@
                     <mat-icon class="stat-icon">people</mat-icon>
                     <div class="stat-info">
                         <h3>Estudiantes</h3>
-                        <p class="stat-number">0</p>
+                        <p class="stat-number">{{ stats.students }}</p>
                         <p class="stat-label">Registrados</p>
                     </div>
                 </div>
@@ -24,7 +24,7 @@
                     <mat-icon class="stat-icon">book</mat-icon>
                     <div class="stat-info">
                         <h3>Materias</h3>
-                        <p class="stat-number">0</p>
+                        <p class="stat-number">{{ stats.subjects }}</p>
                         <p class="stat-label">Disponibles</p>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
                     <mat-icon class="stat-icon">person</mat-icon>
                     <div class="stat-info">
                         <h3>Profesores</h3>
-                        <p class="stat-number">0</p>
+                        <p class="stat-number">{{ stats.teachers }}</p>
                         <p class="stat-label">Activos</p>
                     </div>
                 </div>
@@ -48,19 +48,19 @@
     <div class="quick-actions">
         <h2>Acciones Rápidas</h2>
         <div class="actions-grid">
-            <button mat-raised-button color="primary" routerLink="/dashboard/students" class="action-button">
-                <mat-icon>add</mat-icon>
-                <span>Agregar Estudiante</span>
-            </button>
-
-            <button mat-raised-button color="accent" routerLink="/dashboard/subjects" class="action-button">
+            <button mat-raised-button color="primary" routerLink="/dashboard/my-subjects" class="action-button">
                 <mat-icon>book</mat-icon>
-                <span>Gestionar Materias</span>
+                <span>Mis Materias</span>
             </button>
 
-            <button mat-raised-button color="warn" routerLink="/dashboard/teachers" class="action-button">
-                <mat-icon>person_add</mat-icon>
-                <span>Gestionar Profesores</span>
+            <button mat-raised-button color="accent" routerLink="/dashboard/enroll-subjects" class="action-button">
+                <mat-icon>add_circle</mat-icon>
+                <span>Inscribir Materias</span>
+            </button>
+
+            <button mat-raised-button color="warn" routerLink="/dashboard/students" class="action-button">
+                <mat-icon>people</mat-icon>
+                <span>Ver Estudiantes</span>
             </button>
         </div>
     </div>

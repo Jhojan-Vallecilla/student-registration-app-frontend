@@ -1,0 +1,104 @@
+<div class="my-subjects-container">
+    <div class="header">
+        <h1>Mis Materias Inscritas</h1>
+        <div class="summary-cards">
+            <mat-card class="summary-card">
+                <mat-card-content>
+                    <div class="card-content">
+                        <mat-icon class="card-icon">book</mat-icon>
+                        <div class="card-info">
+                            <h3>{{ enrolledSubjects.length }}</h3>
+                            <p>Materias Inscritas</p>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="summary-card">
+                <mat-card-content>
+                    <div class="card-content">
+                        <mat-icon class="card-icon">school</mat-icon>
+                        <div class="card-info">
+                            <h3>{{ totalCredits }}</h3>
+                            <p>Créditos Totales</p>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="summary-card">
+                <mat-card-content>
+                    <div class="card-content">
+                        <mat-icon class="card-icon">people</mat-icon>
+                        <div class="card-info">
+                            <h3>{{ totalClassmates }}</h3>
+                            <p>Compañeros</p>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+
+    <div class="content" *ngIf="!loading">
+        <mat-card class="subjects-card" *ngIf="enrolledSubjects.length > 0">
+            <mat-card-header>
+                <mat-card-title>Materias y Compañeros</mat-card-title>
+                <mat-card-subtitle>Detalles de tus materias inscritas</mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content>
+                <div class="subjects-grid">
+                    <mat-card class="subject-card" *ngFor="let subject of enrolledSubjects">
+                        <mat-card-header>
+                            <mat-card-title>{{ subject.name }}</mat-card-title>
+                            <mat-card-subtitle>
+                                <mat-icon class="teacher-icon">person</mat-icon>
+                                {{ subject.teacher?.name || 'Sin profesor' }}
+                            </mat-card-subtitle>
+                        </mat-card-header>
+
+                        <mat-card-content>
+                            <div class="subject-details">
+                                <div class="credits-badge">
+                                    {{ subject.credits }} créditos
+                                </div>
+                                
+                                <div class="classmates-section">
+                                    <h4>Compañeros ({{ subject.classmates?.length || 0 }})</h4>
+                                    <div class="classmates-list" *ngIf="subject.classmates && subject.classmates.length > 0">
+                                        <mat-chip *ngFor="let classmate of subject.classmates" class="classmate-chip">
+                                            {{ classmate }}
+                                        </mat-chip>
+                                    </div>
+                                    <p *ngIf="!subject.classmates || subject.classmates.length === 0" class="no-classmates">
+                                        No hay otros estudiantes inscritos en esta materia
+                                    </p>
+                                </div>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card class="empty-state" *ngIf="enrolledSubjects.length === 0">
+            <mat-card-content>
+                <div class="empty-content">
+                    <mat-icon class="empty-icon">book</mat-icon>
+                    <h3>No tienes materias inscritas</h3>
+                    <p>Ve a "Inscribir Materias" para comenzar tu programa académico</p>
+                    <button mat-raised-button color="primary" routerLink="/dashboard/enroll-subjects">
+                        <mat-icon>add_circle</mat-icon>
+                        Inscribir Materias
+                    </button>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+    <div class="loading-container" *ngIf="loading">
+        <mat-spinner diameter="50"></mat-spinner>
+        <p>Cargando tus materias...</p>
+    </div>
+</div> 

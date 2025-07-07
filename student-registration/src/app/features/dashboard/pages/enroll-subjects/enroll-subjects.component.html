@@ -1,0 +1,144 @@
+<div class="enroll-subjects-container">
+  <div class="header">
+    <h2>Inscribir Materias</h2>
+    <p class="subtitle">Selecciona exactamente 3 materias para inscribir</p>
+  </div>
+
+  <!-- Mensaje cuando ya tiene máximo de materias -->
+  <div class="max-subjects-message" *ngIf="alreadyHasMaxSubjects">
+    <div class="max-subjects-card">
+      <div class="max-subjects-icon">
+        <i class="fas fa-exclamation-triangle"></i>
+      </div>
+      <h3>Ya tienes el máximo de materias inscritas</h3>
+      <p>Actualmente tienes {{ currentEnrolledCount }}/3 materias inscritas. Si necesitas hacer cambios en tu inscripción, por favor comunícate con el soporte de la universidad.</p>
+      <div class="support-info">
+        <p><strong>Contacto de soporte:</strong></p>
+        <p>📧 Email: soporte.tecnica@edutecnica.com</p>
+        <p>📞 Teléfono: (123) 456-7890</p>
+        <p>🕒 Horario: Lunes a Viernes 8:00 AM - 6:00 PM</p>
+      </div>
+      <button class="view-subjects-btn" routerLink="/dashboard/my-subjects">
+        <i class="fas fa-eye"></i>
+        Ver Mis Materias Inscritas
+      </button>
+    </div>
+  </div>
+
+  <!-- Resumen de selección -->
+  <div class="selection-summary" *ngIf="selectedSubjects.length > 0 && !alreadyHasMaxSubjects">
+    <h3>Materias Seleccionadas ({{ selectedSubjects.length }}/3)</h3>
+    <div class="selected-subjects">
+      <div class="selected-subject" *ngFor="let subject of selectedSubjects">
+        <span class="subject-name">{{ subject.name }}</span>
+        <span class="teacher-name">Prof. {{ getTeacherName(subject) }}</span>
+        <span class="credits">{{ subject.credits }} créditos</span>
+        <button class="remove-btn" (click)="removeSubject(subject)">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Información de materias actuales -->
+  <div class="current-subjects-info" *ngIf="currentEnrolledCount > 0 && !alreadyHasMaxSubjects">
+    <div class="current-subjects-card">
+      <h3>Materias Actualmente Inscritas ({{ currentEnrolledCount }}/3)</h3>
+      <div class="current-subjects">
+        <div class="current-subject" *ngFor="let subject of currentEnrolledSubjects">
+          <span class="subject-name">{{ subject.subjectName }}</span>
+          <span class="shared-with">{{ subject.sharedWith?.length || 0 }} compañeros</span>
+        </div>
+      </div>
+      <p class="remaining-info">Puedes inscribir {{ 3 - currentEnrolledCount }} materia(s) más</p>
+    </div>
+  </div>
+
+  <!-- Mensajes de validación -->
+  <div class="validation-messages" *ngIf="validationMessages.length > 0 && !alreadyHasMaxSubjects">
+    <div class="message" 
+         *ngFor="let message of validationMessages" 
+         [ngClass]="message.type">
+      {{ message.text }}
+    </div>
+  </div>
+
+  <!-- Lista de materias disponibles -->
+  <div class="subjects-grid" *ngIf="!loading && !alreadyHasMaxSubjects">
+    <div class="subject-card" 
+         *ngFor="let subject of availableSubjects"
+         [ngClass]="{
+           'selected': isSubjectSelected(subject),
+           'disabled': isSubjectDisabled(subject)
+         }"
+         (click)="toggleSubject(subject)">
+      
+      <div class="subject-header">
+        <h3 class="subject-name">{{ subject.name }}</h3>
+        <div class="subject-badge">
+          <span class="credits">{{ subject.credits }} créditos</span>
+        </div>
+      </div>
+
+      <div class="subject-details">
+        <div class="teacher-info">
+          <i class="fas fa-user-tie"></i>
+          <span class="teacher-name">{{ getTeacherName(subject) }}</span>
+        </div>
+        
+        <div class="enrollment-info">
+          <i class="fas fa-users"></i>
+          <span>{{ subject.enrolledStudents || 0 }} estudiantes inscritos</span>
+        </div>
+      </div>
+
+      <div class="selection-indicator">
+        <i class="fas fa-check" *ngIf="isSubjectSelected(subject)"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Cargando materias disponibles...</p>
+  </div>
+
+  <!-- Botón de inscripción -->
+  <div class="enrollment-actions" *ngIf="!loading && !alreadyHasMaxSubjects">
+    <button class="enroll-btn" 
+            [disabled]="!canEnroll()"
+            (click)="confirmEnrollment()">
+      <i class="fas fa-graduation-cap"></i>
+      Inscribir {{ selectedSubjects.length }}/3 Materias
+    </button>
+  </div>
+
+  <!-- Modal de confirmación -->
+  <div class="modal-overlay" *ngIf="showConfirmation" (click)="cancelConfirmation()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <h3>Confirmar Inscripción</h3>
+      <p>¿Estás seguro de que quieres inscribir las siguientes materias?</p>
+      
+      <div class="confirmation-subjects">
+        <div class="confirmation-subject" *ngFor="let subject of selectedSubjects">
+          <span class="subject-name">{{ subject.name }}</span>
+          <span class="teacher-name">Prof. {{ getTeacherName(subject) }}</span>
+          <span class="credits">{{ subject.credits }} créditos</span>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="cancel-btn" (click)="cancelConfirmation()">
+          Cancelar
+        </button>
+        <button class="confirm-btn" 
+                [disabled]="loading"
+                (click)="enrollSubjects()">
+          <i class="fas fa-spinner fa-spin" *ngIf="loading"></i>
+          {{ loading ? 'Inscribiendo...' : 'Confirmar Inscripción' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div> 

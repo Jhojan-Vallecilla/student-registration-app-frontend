@@ -24,54 +24,58 @@
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 32px;
   margin-bottom: 40px;
-}
 
-.stat-card {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-  }
-}
+  .stat-card {
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    color: #fff;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(17, 153, 142, 0.10);
+    padding: 0;
+    transition: box-shadow 0.3s, transform 0.3s;
+    border: none;
+    
+    &:hover {
+      box-shadow: 0 12px 40px rgba(17, 153, 142, 0.18);
+      transform: translateY(-4px) scale(1.03);
+    }
 
-.stat-content {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
+    .stat-content {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 32px 24px;
 
-.stat-icon {
-  font-size: 48px;
-  width: 48px;
-  height: 48px;
-  color: #1976d2;
-}
+      .stat-icon {
+        font-size: 2.5rem;
+        color: #fff;
+        opacity: 0.93;
+        filter: drop-shadow(0 2px 8px rgba(56, 239, 125, 0.10));
+      }
 
-.stat-info {
-  flex: 1;
-  
-  h3 {
-    margin: 0 0 8px 0;
-    color: #333;
-    font-size: 18px;
-    font-weight: 500;
-  }
-  
-  .stat-number {
-    margin: 0 0 4px 0;
-    font-size: 32px;
-    font-weight: 700;
-    color: #1976d2;
-  }
-  
-  .stat-label {
-    margin: 0;
-    color: #666;
-    font-size: 14px;
+      .stat-info {
+        h3 {
+          margin: 0 0 4px 0;
+          font-size: 1.1rem;
+          font-weight: 700;
+          color: #fff;
+        }
+        .stat-number {
+          font-size: 2rem;
+          font-weight: 700;
+          margin: 0 0 2px 0;
+          color: #fff;
+          text-shadow: 0 2px 8px rgba(17, 153, 142, 0.08);
+        }
+        .stat-label {
+          font-size: 0.95rem;
+          color: #eafff6;
+          opacity: 0.85;
+        }
+      }
+    }
   }
 }
 
@@ -96,6 +100,13 @@
   
   mat-icon {
     margin-right: 8px;
+  }
+}
+
+@media (max-width: 900px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
 }
 

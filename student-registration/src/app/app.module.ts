@@ -14,17 +14,27 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatChipsModule } from '@angular/material/chips';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { HomeComponent } from './features/dashboard/pages/home/home.component';
+import { MySubjectsComponent } from './features/dashboard/pages/my-subjects/my-subjects.component';
+import { EnrollSubjectsComponent } from './features/dashboard/pages/enroll-subjects/enroll-subjects.component';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { StudentsService } from './core/services/students.service';
+import { SubjectsService } from './core/services/subjects.service';
+import { TeachersService } from './core/services/teachers.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
-    HomeComponent
+    HomeComponent,
+    MySubjectsComponent,
+    EnrollSubjectsComponent
   ],
   imports: [
     BrowserModule,
@@ -41,9 +51,19 @@ import { HomeComponent } from './features/dashboard/pages/home/home.component';
     MatInputModule,
     MatProgressSpinnerModule,
     MatMenuModule,
+    MatChipsModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
+    StudentsService,
+    SubjectsService,
+    TeachersService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

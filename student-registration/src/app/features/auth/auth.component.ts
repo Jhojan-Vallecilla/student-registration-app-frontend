@@ -1,14 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-// import { AuthService } from 'src/app/core/services/auth.service';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { AuthResponse } from 'src/app/core/models/auth-response.interface';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss']
 })
-export class AuthComponent {
+export class AuthComponent implements OnInit {
   loginForm: FormGroup;
   loading = false;
   error: string | null = null;
@@ -16,58 +17,51 @@ export class AuthComponent {
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
-    /*, private authService: AuthService*/
+    private router: Router,
+    private authService: AuthService
   ) {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
     });
+    
+    // Asegurar que el formulario esté limpio al inicializar
+    this.loginForm.reset();
+  }
+
+  ngOnInit() {
+    // Limpiar cualquier valor que pueda haber quedado del navegador
+    this.loginForm.patchValue({
+      username: '',
+      password: ''
+    });
   }
 
   onSubmit() {
-    if (this.loginForm.invalid) return;
+    // Validar que los campos no estén vacíos
+    if (!this.loginForm.value.username || !this.loginForm.value.password) {
+      this.error = 'Por favor, completa todos los campos';
+      return;
+    }
 
     this.loading = true;
     this.error = null;
     this.success = null;
 
-    // Simular login exitoso por ahora
-    setTimeout(() => {
-      this.loading = false;
-      this.success = '¡Inicio de sesión exitoso! (Simulado)';
-
-      // Guardar información del usuario
-      const userInfo = {
-        name: this.loginForm.value.username,
-        username: this.loginForm.value.username
-      };
-      localStorage.setItem('currentUser', JSON.stringify(userInfo));
-      localStorage.setItem('token', 'simulated-token');
-
-      this.loginForm.reset();
-
-      // Navegar al dashboard después del login exitoso
-      setTimeout(() => {
-        this.router.navigate(['/dashboard']);
-      }, 1000);
-    }, 1000);
-
-    /*
     const { username, password } = this.loginForm.value;
     
     this.authService.login(username, password).subscribe({
-      next: (res) => {
+      next: (res: AuthResponse) => {
         this.loading = false;
-        this.success = '¡Inicio de sesión exitoso!';
         
         // Guardar información del usuario
-        localStorage.setItem('currentUser', JSON.stringify(res.user));
-        localStorage.setItem('token', res.token);
+        const userInfo = {
+          name: username,
+          username: username
+        };
+        localStorage.setItem('currentUser', JSON.stringify(userInfo));
         
-        this.loginForm.reset();
-        
-        // Navegar al dashboard después del login exitoso
+        // Navegar inmediatamente al dashboard
         this.router.navigate(['/dashboard']);
       },
       error: (err) => {
@@ -76,6 +70,5 @@ export class AuthComponent {
         console.error('Error de login:', err);
       }
     });
-    */
   }
 }

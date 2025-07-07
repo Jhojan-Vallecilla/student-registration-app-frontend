@@ -44,6 +44,46 @@
   width: 100%;
 }
 
+// Estilos para corregir problemas de color en los inputs
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #ccc;
+}
+
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: #667eea;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-thick {
+  color: #667eea;
+}
+
+// Asegurar que el texto del input sea visible
+::ng-deep .mat-form-field input {
+  color: #333 !important;
+}
+
+// Asegurar que el label sea visible
+::ng-deep .mat-form-field-label {
+  color: #666 !important;
+}
+
+// Asegurar que el botón sea visible desde el inicio
+.login-button {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: flex !important;
+  background-color: #667eea !important;
+  color: white !important;
+}
+
+// Estilos para el botón deshabilitado
+.login-button:disabled {
+  opacity: 0.7 !important;
+  background-color: #ccc !important;
+  color: #666 !important;
+  cursor: not-allowed !important;
+}
+
 .login-button {
   width: 100%;
   padding: 12px;
@@ -51,10 +91,12 @@
   font-weight: 500;
   border-radius: 8px;
   transition: all 0.3s ease;
-  display: flex;
+  display: flex !important;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  opacity: 1 !important;
+  visibility: visible !important;
   
   &:hover:not(:disabled) {
     transform: translateY(-2px);
@@ -62,7 +104,7 @@
   }
   
   &:disabled {
-    opacity: 0.7;
+    opacity: 0.7 !important;
     cursor: not-allowed;
   }
 }
