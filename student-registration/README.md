@@ -24,10 +24,12 @@ ng version
 1. **Clonar el repositorio** (si no lo tienes ya):
 ```bash
 git clone [URL_DEL_REPOSITORIO]
+(DEBE IR A LA SIGUIENTE RUTA PARA COLOCAR EL npm install y el ng serve)
 cd FrontStudentRegistration/student-registration-app-frontend/student-registration
+
 ```
 
-2. **Instalar dependencias**:
+2. **Instalar dependencias**: 
 ```bash
 npm install
 ```
